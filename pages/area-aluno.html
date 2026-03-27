@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Área do Aluno — Elite Training</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root { --primary:#e2ff00; --dark:#050505; --card:#0e0e0e; --border:#1f1f1f; --muted:#888; }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Montserrat',sans-serif;background:var(--dark);color:#fff;min-height:100vh;}
+    .topbar{background:#0a0a0a;border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;}
+    .logo{font-size:1.2rem;font-weight:900;color:#fff;text-decoration:none;}.logo span{color:var(--primary);}
+    .user-info{display:flex;align-items:center;gap:0.75rem;}
+    .avatar{width:36px;height:36px;border-radius:50%;background:var(--primary);color:var(--dark);font-size:0.75rem;font-weight:900;display:flex;align-items:center;justify-content:center;}
+    .user-info span{font-size:0.8rem;color:var(--muted);}
+    .logout{font-size:0.7rem;font-weight:700;color:var(--muted);text-decoration:none;letter-spacing:0.05em;}
+    .logout:hover{color:var(--primary);}
+    .main{max-width:1100px;margin:0 auto;padding:3rem 2rem;}
+    .welcome{margin-bottom:2.5rem;}
+    .welcome h1{font-size:1.8rem;font-weight:900;margin-bottom:0.25rem;}
+    .welcome p{color:var(--muted);font-size:0.88rem;}
+    .plan-badge{display:inline-block;background:rgba(226,255,0,0.1);border:1px solid rgba(226,255,0,0.3);color:var(--primary);font-size:0.65rem;font-weight:700;letter-spacing:0.1em;padding:3px 12px;border-radius:50px;margin-top:0.5rem;}
+    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2.5rem;}
+    .stat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.25rem;}
+    .stat-card span{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:0.5rem;}
+    .stat-card strong{font-size:2rem;font-weight:900;color:var(--primary);}
+    .stat-card p{font-size:0.72rem;color:var(--muted);margin-top:0.25rem;}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem;}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:1.75rem;}
+    .card h3{font-size:0.75rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--primary);margin-bottom:1.25rem;}
+    .treino-item{display:flex;align-items:center;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid var(--border);}
+    .treino-item:last-child{border-bottom:none;}
+    .treino-item span{font-size:0.85rem;}
+    .treino-badge{font-size:0.65rem;font-weight:700;padding:3px 10px;border-radius:50px;}
+    .badge-done{background:rgba(74,222,128,0.12);color:#4ade80;}
+    .badge-today{background:rgba(226,255,0,0.12);color:var(--primary);}
+    .badge-next{background:rgba(255,255,255,0.05);color:var(--muted);}
+    .progress-bar{background:#1a1a1a;border-radius:99px;height:6px;overflow:hidden;margin:0.5rem 0;}
+    .progress-fill{height:100%;border-radius:99px;background:var(--primary);}
+    .progress-label{display:flex;justify-content:space-between;font-size:0.7rem;color:var(--muted);}
+    .btn-sm{font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.6rem 1.2rem;border-radius:50px;border:1px solid #333;background:transparent;color:#fff;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all 0.2s;}
+    .btn-sm:hover{border-color:var(--primary);color:var(--primary);}
+    .btn-sm.primary{background:var(--primary);color:var(--dark);border-color:var(--primary);}
+    .btn-sm.primary:hover{box-shadow:0 4px 16px rgba(226,255,0,0.3);}
+    .nota-textarea{width:100%;background:#0a0a0a;border:1px solid var(--border);border-radius:12px;padding:1rem;color:#fff;font-family:'Montserrat',sans-serif;font-size:0.83rem;resize:none;min-height:100px;margin-bottom:0.75rem;}
+    .nota-textarea:focus{outline:none;border-color:var(--primary);}
+    .nota-saved{font-size:0.75rem;color:#4ade80;display:none;}
+    @media(max-width:768px){.stats-row{grid-template-columns:1fr 1fr;}.grid-2{grid-template-columns:1fr;}}
+    @media(max-width:480px){.stats-row{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<div class="topbar">
+  <a href="../index.html" class="logo">ELITE<span>TRAINING</span></a>
+  <div class="user-info">
+    <div class="avatar" id="userAvatar">?</div>
+    <span id="userName">Carregando...</span>
+    <a href="../index.html" class="logout">Sair</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="welcome">
+    <h1>Olá, <span id="firstName">Aluno</span>! 👋</h1>
+    <p>Aqui está o seu painel de treino. Bora evoluir hoje?</p>
+    <span class="plan-badge" id="planLabel">PLANO ELITE</span>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><span>Semana atual</span><strong>3</strong><p>de 12 semanas</p></div>
+    <div class="stat-card"><span>Treinos feitos</span><strong>14</strong><p>este mês</p></div>
+    <div class="stat-card"><span>Sequência</span><strong>5</strong><p>dias seguidos 🔥</p></div>
+    <div class="stat-card"><span>Evolução</span><strong>+8%</strong><p>carga média</p></div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Treinos da semana -->
+    <div class="card">
+      <h3>Treinos desta semana</h3>
+      <div class="treino-item"><span>Segunda — Peito + Tríceps</span><span class="treino-badge badge-done">✅ Feito</span></div>
+      <div class="treino-item"><span>Terça — Costas + Bíceps</span><span class="treino-badge badge-done">✅ Feito</span></div>
+      <div class="treino-item"><span>Quarta — Pernas</span><span class="treino-badge badge-today">⚡ Hoje</span></div>
+      <div class="treino-item"><span>Quinta — Ombros + Core</span><span class="treino-badge badge-next">Próximo</span></div>
+      <div class="treino-item"><span>Sexta — Cardio + Mobilidade</span><span class="treino-badge badge-next">Próximo</span></div>
+      <div style="margin-top:1.25rem">
+        <button class="btn-sm primary" onclick="showToast('Planilha completa em breve!')">VER PLANILHA COMPLETA</button>
+      </div>
+    </div>
+
+    <!-- Progresso -->
+    <div class="card">
+      <h3>Progresso do programa</h3>
+      <p style="font-size:0.83rem;color:var(--muted);margin-bottom:1.25rem">Semana 3 de 12 — continue assim!</p>
+      <div class="progress-label"><span>Semanas concluídas</span><span>25%</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
+      <div class="progress-label" style="margin-top:1rem"><span>Treinos completados</span><span>14/20</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:70%"></div></div>
+      <div class="progress-label" style="margin-top:1rem"><span>Metas nutricionais</span><span>80%</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+      <div style="margin-top:1.5rem;display:flex;gap:0.75rem;flex-wrap:wrap">
+        <button class="btn-sm" onclick="showToast('Em breve: guia nutricional completo!')">📋 Guia Nutricional</button>
+        <button class="btn-sm" onclick="showToast('Em breve: suporte via WhatsApp integrado!')">💬 Falar com Personal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Anotações -->
+  <div class="card">
+    <h3>Minhas anotações</h3>
+    <textarea class="nota-textarea" id="notaTextarea" placeholder="Anote aqui sua evolução, pesos, observações do treino..."></textarea>
+    <div style="display:flex;align-items:center;gap:1rem">
+      <button class="btn-sm primary" onclick="salvarNota()">SALVAR ANOTAÇÃO</button>
+      <span class="nota-saved" id="notaSaved">✅ Salvo!</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Pega dados do localStorage (simulando sessão do aluno)
+  const email = localStorage.getItem('et_email') || 'aluno@email.com';
+  const plan  = localStorage.getItem('et_plan')  || 'elite';
+  const firstName = email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1);
+  const initials  = firstName.slice(0,2).toUpperCase();
+
+  document.getElementById('userAvatar').textContent = initials;
+  document.getElementById('userName').textContent   = email;
+  document.getElementById('firstName').textContent  = firstName;
+  document.getElementById('planLabel').textContent  = 'PLANO ' + plan.toUpperCase();
+
+  // Nota salva no localStorage
+  const savedNota = localStorage.getItem('et_nota');
+  if (savedNota) document.getElementById('notaTextarea').value = savedNota;
+
+  function salvarNota() {
+    localStorage.setItem('et_nota', document.getElementById('notaTextarea').value);
+    const s = document.getElementById('notaSaved');
+    s.style.display = 'inline';
+    setTimeout(() => s.style.display = 'none', 2000);
+  }
+
+  function showToast(msg) {
+    let t = document.getElementById('_toast');
+    if (!t) { t = document.createElement('div'); t.id = '_toast'; t.style.cssText='position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:#1a1a1a;color:#fff;padding:0.9rem 2rem;border-radius:50px;font-size:0.83rem;font-weight:600;border:1px solid #333;transition:all 0.35s;z-index:3000;opacity:0'; document.body.appendChild(t); }
+    t.textContent = msg;
+    t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)';
+    clearTimeout(t._t);
+    t._t = setTimeout(() => { t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(20px)'; }, 2800);
+  }
+</script>
+</body>
+</html>
