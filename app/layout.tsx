@@ -9,13 +9,17 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://samuelgmoraes.github.io'),
   title: "Elite Training | Consultoria Online de Alta Performance",
   description: "A consultoria definitiva para quem busca performance real e resultados transformadores em 12 semanas. Treinos personalizados e suporte direto.",
   keywords: "treino online, consultoria fitness, hipertrofia, emagrecimento, elite training",
   openGraph: {
     title: "Elite Training | Consultoria Online",
     description: "Transforme seu corpo com metodologia de elite.",
-    images: ["/banner.jpg"],
+    images: ["/elite-training/banner.jpg"],
+  },
+  icons: {
+    icon: "/elite-training/favicon.png",
   }
 };
 

@@ -152,17 +152,21 @@ const CheckoutModal = ({ isOpen, onClose, plan }: any) => {
               <span className="text-[10px] font-black tracking-widest text-primary uppercase bg-primary/10 px-3 py-1 rounded-full">CHECKOUT SEGURO</span>
               <h3 className="text-2xl font-black mt-3">Finalizar {plan?.name}</h3>
               <p className="text-zinc-400 text-sm mt-1">Insira seus dados para liberar acesso imediato.</p>
+              <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg flex items-start gap-3">
+                <span className="text-xl leading-none">⚠️</span>
+                <p className="text-xs text-yellow-500/90 font-medium">MODO DEMONSTRAÇÃO: Este formulário não processa pagamentos reais. Não insira dados bancários verdadeiros.</p>
+              </div>
             </div>
 
             <form onSubmit={handleConfirm} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-zinc-500 uppercase">Nome Completo</label>
-                  <input required type="text" className="w-full bg-zinc-900 border border-white/5 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 text-sm transition-all" placeholder="John Doe" />
+                  <label htmlFor="customerName" className="text-[10px] font-bold text-zinc-500 uppercase">Nome Completo</label>
+                  <input id="customerName" name="customerName" required type="text" className="w-full bg-zinc-900 border border-white/5 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 text-sm transition-all" placeholder="John Doe" />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-zinc-500 uppercase">Seu Melhor E-mail</label>
-                  <input required type="email" className="w-full bg-zinc-900 border border-white/5 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 text-sm transition-all" placeholder="john@email.com" />
+                  <label htmlFor="customerEmail" className="text-[10px] font-bold text-zinc-500 uppercase">Seu Melhor E-mail</label>
+                  <input id="customerEmail" name="customerEmail" required type="email" className="w-full bg-zinc-900 border border-white/5 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 text-sm transition-all" placeholder="john@email.com" />
                 </div>
               </div>
 
@@ -193,17 +197,17 @@ const CheckoutModal = ({ isOpen, onClose, plan }: any) => {
               {method === 'card' && (
                 <div className="space-y-4 pt-2">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-zinc-500 uppercase">Número do Cartão</label>
-                    <input required type="text" className="w-full bg-zinc-900 border border-white/5 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 text-sm transition-all" placeholder="0000 0000 0000 0000" />
+                    <label htmlFor="cardNumber" className="text-[10px] font-bold text-zinc-500 uppercase">Número do Cartão</label>
+                    <input id="cardNumber" name="cardNumber" required type="text" inputMode="numeric" autoComplete="off" className="w-full bg-zinc-900 border border-white/5 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 text-sm transition-all" placeholder="0000 0000 0000 0000" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <label className="text-[10px] font-bold text-zinc-500 uppercase">Validade</label>
-                      <input required type="text" className="w-full bg-zinc-900 border border-white/5 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 text-sm transition-all" placeholder="MM/AA" />
+                      <label htmlFor="cardExpiry" className="text-[10px] font-bold text-zinc-500 uppercase">Validade</label>
+                      <input id="cardExpiry" name="cardExpiry" required type="text" inputMode="numeric" autoComplete="off" className="w-full bg-zinc-900 border border-white/5 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 text-sm transition-all" placeholder="MM/AA" />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[10px] font-bold text-zinc-500 uppercase">CVV</label>
-                      <input required type="text" className="w-full bg-zinc-900 border border-white/5 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 text-sm transition-all" placeholder="123" />
+                      <label htmlFor="cardCvv" className="text-[10px] font-bold text-zinc-500 uppercase">CVV</label>
+                      <input id="cardCvv" name="cardCvv" required type="text" inputMode="numeric" autoComplete="off" className="w-full bg-zinc-900 border border-white/5 rounded-xl px-4 py-3 focus:outline-none focus:border-primary/50 text-sm transition-all" placeholder="123" />
                     </div>
                   </div>
                 </div>
@@ -492,7 +496,7 @@ export default function LandingPage() {
             </div>
         </div>
         <div className="max-w-7xl mx-auto px-6 pt-20 mt-20 border-t border-white/5 flex flex-col md:row items-center justify-between gap-4">
-           <div className="text-[10px] font-bold text-zinc-600 uppercase">© 2024 ELITE TRAINING · CNPJ 00.000.000/0001-00</div>
+           <div className="text-[10px] font-bold text-zinc-600 uppercase">© {new Date().getFullYear()} ELITE TRAINING · CNPJ 00.000.000/0001-00</div>
            <div className="flex gap-6">
               {['Termos', 'Privacidade', 'Reembolso'].map(item => <a key={item} href="#" className="text-[10px] font-bold text-zinc-600 uppercase hover:text-white transition-colors">{item}</a>)}
            </div>
